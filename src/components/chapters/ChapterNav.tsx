@@ -61,7 +61,8 @@ export default function ChapterNav({ chapterCount, accentColors }: ChapterNavPro
   const scrollToChapter = (index: number) => {
     const chapter = document.querySelector(`[data-chapter-index="${index}"]`);
     if (chapter && lenis) {
-      lenis.scrollTo(chapter, { immediate: false });
+      const top = (chapter as HTMLElement).offsetTop;
+      lenis.scrollTo(top, { immediate: false });
     }
   };
 
