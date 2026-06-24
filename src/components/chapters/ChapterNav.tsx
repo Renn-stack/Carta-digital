@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { LenisContext } from '@/components/LenisProvider';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,6 +21,7 @@ export default function ChapterNav({ chapterCount, accentColors }: ChapterNavPro
   const progressRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const lenis = useContext(LenisContext);
 
   useGSAP(() => {
     if (!navRef.current) return;
@@ -58,8 +60,8 @@ export default function ChapterNav({ chapterCount, accentColors }: ChapterNavPro
 
   const scrollToChapter = (index: number) => {
     const chapter = document.querySelector(`[data-chapter-index="${index}"]`);
-    if (chapter) {
-      chapter.scrollIntoView({ behavior: 'smooth' });
+    if (chapter && lenis) {
+      lenis.scrollTo(chapter, { immediate: false });
     }
   };
 
